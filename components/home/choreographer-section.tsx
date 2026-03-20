@@ -158,7 +158,7 @@ export function ChoreographerSection() {
             >
               {/* Replace with Ritesh's actual photo */}
               <Image
-                src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800&q=80"
+                src="https://res.cloudinary.com/dmjds6upr/image/upload/v1774018930/Profile_q77ars.jpg"
                 alt="Ritesh More — Founder, MRX Studios"
                 fill
                 className="object-cover object-top"
@@ -178,30 +178,82 @@ export function ChoreographerSection() {
 
               {/* ── SOCIAL PILLS — overlaid on photo ── */}
               <div className="absolute top-4 right-4 flex flex-col gap-2">
-                {[
-                  { Icon: Instagram, label: '@mrxstudios' },
-                  { Icon: Youtube,   label: 'MRX Studios' },
-                ].map(({ Icon, label }) => (
-                  <div
-                    key={label}
-                    className="flex items-center gap-2 rounded-full px-3 py-1.5"
-                    style={{
-                      background: 'rgba(13,10,26,0.75)',
-                      border: '1px solid rgba(245,166,35,0.25)',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <Icon size={12} style={{ color: '#f5a623', flexShrink: 0 }} />
-                    <span style={{
-                      fontFamily: '"DM Sans", sans-serif',
-                      fontSize: 10, fontWeight: 600,
-                      color: 'rgba(255,255,255,0.7)',
-                    }}>
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
+
+  {/* MRX Studios Instagram */}
+  <a
+    href="https://instagram.com/mrxstudios"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 rounded-full px-3 py-1.5 transition-all duration-200"
+    style={{
+      background: 'rgba(13,10,26,0.75)',
+      border: '1px solid rgba(245,166,35,0.25)',
+      backdropFilter: 'blur(10px)',
+    }}
+    onMouseEnter={e => {
+      const el = e.currentTarget as HTMLAnchorElement
+      el.style.background = 'rgba(245,166,35,0.12)'
+      el.style.borderColor = 'rgba(245,166,35,0.5)'
+      el.style.transform = 'translateY(-2px)'
+    }}
+    onMouseLeave={e => {
+      const el = e.currentTarget as HTMLAnchorElement
+      el.style.background = 'rgba(13,10,26,0.75)'
+      el.style.borderColor = 'rgba(245,166,35,0.25)'
+      el.style.transform = 'translateY(0)'
+    }}
+  >
+    <Instagram size={12} style={{ color: '#f5a623', flexShrink: 0 }} />
+    <span
+      style={{
+        fontFamily: '"DM Sans", sans-serif',
+        fontSize: 10,
+        fontWeight: 600,
+        color: 'rgba(255,255,255,0.7)',
+      }}
+    >
+      @mrxstudios
+    </span>
+  </a>
+
+  {/* Ritesh More Instagram */}
+  <a
+    href="https://instagram.com/riteshmore" // <-- update actual handle
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 rounded-full px-3 py-1.5 transition-all duration-200"
+    style={{
+      background: 'rgba(13,10,26,0.75)',
+      border: '1px solid rgba(245,166,35,0.25)',
+      backdropFilter: 'blur(10px)',
+    }}
+    onMouseEnter={e => {
+      const el = e.currentTarget as HTMLAnchorElement
+      el.style.background = 'rgba(232,23,93,0.12)'
+      el.style.borderColor = 'rgba(232,23,93,0.5)'
+      el.style.transform = 'translateY(-2px)'
+    }}
+    onMouseLeave={e => {
+      const el = e.currentTarget as HTMLAnchorElement
+      el.style.background = 'rgba(13,10,26,0.75)'
+      el.style.borderColor = 'rgba(245,166,35,0.25)'
+      el.style.transform = 'translateY(0)'
+    }}
+  >
+    <Instagram size={12} style={{ color: '#e8175d', flexShrink: 0 }} />
+    <span
+      style={{
+        fontFamily: '"DM Sans", sans-serif',
+        fontSize: 10,
+        fontWeight: 600,
+        color: 'rgba(255,255,255,0.7)',
+      }}
+    >
+      Ritesh More
+    </span>
+  </a>
+
+</div>
 
               {/* ── FLOATING EXPERIENCE BADGE ── */}
               <div

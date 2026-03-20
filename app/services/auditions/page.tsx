@@ -1,67 +1,87 @@
-import { Mic } from 'lucide-react'
 import { ServicePageTemplate } from '@/components/services/service-page-template'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Audition Preparation | MRX Studios',
-  description: 'Get camera-ready with expert coaching for reality shows, films, and professional auditions from MRX Studios.',
+  description:
+    'Get camera-ready with expert coaching for reality shows, films, and professional auditions from MRX Studios.',
 }
 
 const auditionsPageData = {
-  icon: Mic,
+  // ── FIX: pass icon as a plain string key, NOT as a component reference ──
+  // Passing <Mic /> or the Mic component directly across the Server → Client
+  // boundary throws: "Only plain objects can be passed to Client Components"
+  // ServicePageTemplate resolves this string to the actual icon internally.
+  icon: 'Mic' as const,
+
   title: 'Audition Preparation',
   subtitle: 'Professional Coaching',
-  description: 'Get camera-ready with expert coaching designed to help you shine in reality shows, film auditions, music videos, and brand shoots.',
-  heroImage: 'https://images.unsplash.com/photo-1547153760-18fc86324498?w=1200&q=80',
-  color: '#3F3D56',
-  
+  description:
+    'Get camera-ready with expert coaching designed to help you shine in reality shows, film auditions, music videos, and brand shoots.',
+  heroImage:
+    'https://images.unsplash.com/photo-1547153760-18fc86324498?w=1200&q=80',
+
+  // Midnight Marigold: Auditions = Marigold (saffron — spotlight, ambition, gold standard)
+  color: '#f5a623',
+
   subtypes: [
     {
       name: 'Reality Shows',
-      description: 'Specialized training for popular dance reality shows with industry-relevant choreography.',
+      description:
+        'Specialized training for popular dance reality shows with industry-relevant choreography.',
     },
     {
       name: 'Film Auditions',
-      description: 'Camera-friendly movements and expressions that translate well on screen.',
+      description:
+        'Camera-friendly movements and expressions that translate well on screen.',
     },
     {
       name: 'Music Videos',
-      description: 'Contemporary and stylized choreography perfect for music video shoots.',
+      description:
+        'Contemporary and stylized choreography perfect for music video shoots.',
     },
     {
       name: 'Brand Shoots',
-      description: 'Commercial-ready movements that highlight products while showcasing your talent.',
+      description:
+        'Commercial-ready movements that highlight products while showcasing your talent.',
     },
     {
       name: 'Personal Portfolio',
-      description: 'Build a professional dance portfolio with varied styles and recorded performances.',
+      description:
+        'Build a professional dance portfolio with varied styles and recorded performances.',
     },
   ],
 
   features: [
     {
       title: 'Industry Experience',
-      description: 'Learn from choreographers who have worked with major production houses.',
+      description:
+        'Learn from choreographers who have worked with major production houses.',
     },
     {
       title: 'Camera Training',
-      description: 'Practice performing for camera with feedback on angles and expressions.',
+      description:
+        'Practice performing for camera with feedback on angles and expressions.',
     },
     {
       title: 'Versatile Styles',
-      description: 'Master multiple dance styles required for professional auditions.',
+      description:
+        'Master multiple dance styles required for professional auditions.',
     },
     {
       title: 'Mock Auditions',
-      description: 'Simulate real audition environments to build confidence and reduce anxiety.',
+      description:
+        'Simulate real audition environments to build confidence and reduce anxiety.',
     },
     {
       title: 'Personalized Feedback',
-      description: 'One-on-one sessions with detailed feedback to accelerate improvement.',
+      description:
+        'One-on-one sessions with detailed feedback to accelerate improvement.',
     },
     {
       title: 'Industry Connections',
-      description: 'Guidance on audition opportunities and industry networking.',
+      description:
+        'Guidance on audition opportunities and industry networking.',
     },
   ],
 
@@ -108,12 +128,30 @@ const auditionsPageData = {
   ],
 
   gallery: [
-    { url: 'https://images.unsplash.com/photo-1547153760-18fc86324498?w=600&q=80', caption: 'Audition Preparation' },
-    { url: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&q=80', caption: 'Dance Training' },
-    { url: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=600&q=80', caption: 'Camera Practice' },
-    { url: 'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=600&q=80', caption: 'Style Exploration' },
-    { url: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=600&q=80', caption: 'Performance Ready' },
-    { url: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=600&q=80', caption: 'Video Shoot' },
+    {
+      url: 'https://images.unsplash.com/photo-1547153760-18fc86324498?w=600&q=80',
+      caption: 'Audition Preparation',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&q=80',
+      caption: 'Dance Training',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=600&q=80',
+      caption: 'Camera Practice',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=600&q=80',
+      caption: 'Style Exploration',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=600&q=80',
+      caption: 'Performance Ready',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=600&q=80',
+      caption: 'Video Shoot',
+    },
   ],
 }
 

@@ -3,6 +3,57 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   FIX: White flash on fast scroll / page load / route transition
+   The browser paints <html> before JS hydrates — setting the bg here
+   ensures the dark base is always the first thing rendered.
+   ───────────────────────────────────────────────────────────────────────────── */
+html,
+body {
+  background-color: #0d0a1a;
+}
+
+/* Overscroll rubber-band fix (Mac / iOS bounce) */
+html {
+  overscroll-behavior: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  overscroll-behavior-y: none;
+  overflow-x: hidden;
+}
+
+/* Next.js root div — covers flash during React hydration */
+#__next,
+main {
+  background-color: #0d0a1a;
+}
+
+/* ─── Brand-consistent text selection ───────────────────────────────────────── */
+::selection {
+  background-color: rgba(245, 166, 35, 0.28);
+  color: #ffffff;
+}
+
+/* ─── Custom scrollbar (Chrome / Edge) ─────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f5a623, #ff6b35);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ff6b35, #e8175d);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CSS Custom Properties — Midnight Marigold palette aligned
+   ───────────────────────────────────────────────────────────────────────────── */
 :root {
   --background: #FFFFFF;
   --foreground: #2b2d42;
@@ -127,88 +178,51 @@
   }
 }
 
-/* Premium Animations */
+/* ─────────────────────────────────────────────────────────────────────────────
+   Premium Animations
+   ───────────────────────────────────────────────────────────────────────────── */
 @keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0);    }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(58, 12, 163, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(58, 12, 163, 0.6);
-  }
+  0%, 100% { box-shadow: 0 0 20px rgba(58, 12, 163, 0.3); }
+  50%       { box-shadow: 0 0 40px rgba(58, 12, 163, 0.6); }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0);     }
+  50%       { transform: translateY(-10px); }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
-}
+.animate-fade-in-up    { animation: fade-in-up     0.6s ease-out forwards; }
+.animate-fade-in       { animation: fade-in         0.4s ease-out forwards; }
+.animate-slide-in-right{ animation: slide-in-right  0.5s ease-out forwards; }
+.animate-pulse-glow    { animation: pulse-glow      2s   ease-in-out infinite; }
+.animate-float         { animation: float           3s   ease-in-out infinite; }
 
-.animate-fade-in {
-  animation: fade-in 0.4s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slide-in-right 0.5s ease-out forwards;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Staggered animations */
+/* Staggered animation delays */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
 
-/* Premium hover effects */
+/* Premium hover lift */
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .hover-lift:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(43, 45, 66, 0.2);
@@ -221,5 +235,3 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
-

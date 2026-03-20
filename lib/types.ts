@@ -152,7 +152,7 @@ export interface DancePlanRule {
   style: string
 }
 
-// Form types
+// ── Form types ─────────────────────────────────────────────────────────────────
 export interface BookingFormData {
   name: string
   phone: string
@@ -166,25 +166,43 @@ export interface BookingFormData {
   songs: { song_name: string; artist: string }[]
 }
 
-// Event types for services
-export type EventType = 'wedding' | 'corporate' | 'college' | 'audition'
+// ── Event types ────────────────────────────────────────────────────────────────
+// guest_performance is the new service category added alongside the four originals.
+// Stored verbatim in leads.event_type (text column) — no DB migration needed.
+export type EventType =
+  | 'wedding'
+  | 'corporate'
+  | 'college'
+  | 'audition'
+  | 'guest_performance'
+
 export type EventSubtype = string
 
 export const EVENT_TYPES = {
   wedding: {
     label: 'Wedding',
-    subtypes: ['Sangeet', 'Reception', 'Mehendi', 'Engagement', 'Haldi']
+    subtypes: ['Sangeet', 'Reception', 'Mehendi', 'Engagement', 'Haldi'],
   },
   corporate: {
     label: 'Corporate',
-    subtypes: ['Annual Day', 'Team Building', 'Product Launch', 'Awards Night', 'Conference']
+    subtypes: ['Annual Day', 'Team Building', 'Product Launch', 'Awards Night', 'Conference'],
   },
   college: {
     label: 'College',
-    subtypes: ['Freshers', 'Farewell', 'Annual Fest', 'Competition', 'Flash Mob']
+    subtypes: ['Freshers', 'Farewell', 'Annual Fest', 'Competition', 'Flash Mob'],
   },
   audition: {
     label: 'Audition',
-    subtypes: ['Reality Show', 'Film', 'Music Video', 'Brand', 'Personal']
-  }
+    subtypes: ['Reality Show', 'Film', 'Music Video', 'Brand', 'Personal'],
+  },
+  guest_performance: {
+    label: 'Guest Performance',
+    subtypes: [
+      'Wedding Reception',
+      'Corporate Gala',
+      'Private Party',
+      'Cultural Festival',
+      'Brand Activation',
+    ],
+  },
 } as const

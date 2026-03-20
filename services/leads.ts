@@ -1,132 +1,71 @@
-import { supabase } from '@/lib/supabase'
-import type { Lead, LeadSong, BookingFormData } from '@/lib/types'
+// ── Lead service functions ─────────────────────────────────────────────────────
+// All Supabase calls for the leads and lead_songs tables live here.
+// The client is imported from lib/supabase so there is a single instance
+// across the whole app (consistent with bookings.ts, choreographers.ts, etc.)
 
-// Create a new lead from booking form
-export async function createLead(formData: BookingFormData): Promise<{ data: Lead | null; error: Error | null }> {
-  const leadData = {
-    name: formData.name,
-    phone: formData.phone,
-    email: formData.email,
-    event_type: formData.event_type,
-    event_subtype: formData.event_subtype,
-    event_date: formData.event_date,
-    location: formData.location,
-    message: formData.message,
-    has_song: formData.has_song,
-    status: 'new',
-    source: 'website',
+import { supabase } from '@/lib/supabase'
+import type { BookingFormData, Lead, LeadSong } from '@/lib/types'
+
+// ── createLead ─────────────────────────────────────────────────────────────────
+// Inserts one row into public.leads and returns the created record.
+// guest_performance stores as event_type = 'guest_performance' — no DB migration needed,
+// the column is already type text.
+export async function createLead(
+  formData: BookingFormData
+): Promise<{ data: Lead | null; error: Error | null }> {
+  const { data, error } = await supabase
+    .from('leads')
+    .insert({
+      name:          formData.name.trim(),
+      phone:         formData.phone.replace(/\D/g, ''),  // strip non-digits: +91 98765 → 9198765
+      email:         formData.email.trim()  || null,
+      event_type:    formData.event_type,
+      event_subtype: formData.event_subtype || null,
+      event_date:    formData.event_date    || null,
+      location:      formData.location.trim() || null,
+      message:       formData.message.trim()  || null,
+      has_song:      formData.has_song,
+      status:        'new',
+      source:        'website',
+      priority:      'medium',
+    })
+    .select()
+    .single()
+
+  if (error) {
+    console.error('[createLead]', error.message)
+    return { data: null, error: new Error(error.message) }
   }
 
-  const { data, error } = await supabase
-    .from('leads')
-    .insert(leadData)
-    .select()
-    .single()
-
-  return { data: data as Lead | null, error: error as Error | null }
+  return { data: data as Lead, error: null }
 }
 
-// Create songs for a lead
+// ── createLeadSongs ────────────────────────────────────────────────────────────
+// Bulk-inserts all songs for a lead in a single round-trip.
+// Skips entries where song_name is blank.
 export async function createLeadSongs(
-  leadId: string, 
+  leadId: string,
   songs: { song_name: string; artist: string }[]
 ): Promise<{ data: LeadSong[] | null; error: Error | null }> {
-  const songsData = songs.map(song => ({
-    lead_id: leadId,
-    song_name: song.song_name,
-    artist: song.artist,
-  }))
+  const rows = songs
+    .filter(s => s.song_name.trim())
+    .map(s => ({
+      lead_id:   leadId,
+      song_name: s.song_name.trim(),
+      artist:    s.artist.trim() || null,
+    }))
+
+  if (rows.length === 0) return { data: [], error: null }
 
   const { data, error } = await supabase
     .from('lead_songs')
-    .insert(songsData)
+    .insert(rows)
     .select()
 
-  return { data: data as LeadSong[] | null, error: error as Error | null }
-}
+  if (error) {
+    console.error('[createLeadSongs]', error.message)
+    return { data: null, error: new Error(error.message) }
+  }
 
-// Fetch all leads
-export async function fetchLeads(): Promise<{ data: Lead[] | null; error: Error | null }> {
-  const { data, error } = await supabase
-    .from('leads')
-    .select('*')
-    .order('created_at', { ascending: false })
-
-  return { data: data as Lead[] | null, error: error as Error | null }
-}
-
-// Fetch a single lead by ID
-export async function fetchLeadById(id: string): Promise<{ data: Lead | null; error: Error | null }> {
-  const { data, error } = await supabase
-    .from('leads')
-    .select('*')
-    .eq('id', id)
-    .single()
-
-  return { data: data as Lead | null, error: error as Error | null }
-}
-
-// Update lead status
-export async function updateLeadStatus(
-  id: string, 
-  status: Lead['status']
-): Promise<{ data: Lead | null; error: Error | null }> {
-  const { data, error } = await supabase
-    .from('leads')
-    .update({ status, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single()
-
-  return { data: data as Lead | null, error: error as Error | null }
-}
-
-// Update lead notes
-export async function updateLeadNotes(
-  id: string, 
-  notes: string
-): Promise<{ data: Lead | null; error: Error | null }> {
-  const { data, error } = await supabase
-    .from('leads')
-    .update({ notes, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single()
-
-  return { data: data as Lead | null, error: error as Error | null }
-}
-
-// Update follow-up date
-export async function updateFollowUpDate(
-  id: string, 
-  followUpDate: string
-): Promise<{ data: Lead | null; error: Error | null }> {
-  const { data, error } = await supabase
-    .from('leads')
-    .update({ follow_up_date: followUpDate, updated_at: new Date().toISOString() })
-    .eq('id', id)
-    .select()
-    .single()
-
-  return { data: data as Lead | null, error: error as Error | null }
-}
-
-// Fetch lead songs
-export async function fetchLeadSongs(leadId: string): Promise<{ data: LeadSong[] | null; error: Error | null }> {
-  const { data, error } = await supabase
-    .from('lead_songs')
-    .select('*')
-    .eq('lead_id', leadId)
-
-  return { data: data as LeadSong[] | null, error: error as Error | null }
-}
-
-// Delete a lead
-export async function deleteLead(id: string): Promise<{ error: Error | null }> {
-  const { error } = await supabase
-    .from('leads')
-    .delete()
-    .eq('id', id)
-
-  return { error: error as Error | null }
+  return { data: data as LeadSong[], error: null }
 }
