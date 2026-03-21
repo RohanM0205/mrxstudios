@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase-browser'
 import type { Booking, Session, Payment, BookingSong } from '@/lib/types'
 
 // Create a new booking

@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase-browser'
 import type { Media, Testimonial, Song, DancePlanRule } from '@/lib/types'
 
 // Media functions

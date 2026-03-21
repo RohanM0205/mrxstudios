@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase-browser'
 import type { Package } from '@/lib/types'
 
 // Fetch all packages

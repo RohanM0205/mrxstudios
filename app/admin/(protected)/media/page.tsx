@@ -36,7 +36,20 @@ import {
   List,
   Play
 } from "lucide-react"
-import { MediaItem, EventType } from "@/lib/types"
+import { EventType } from "@/lib/types"
+
+interface MediaItem {
+  id: string
+  type: "video" | "image"
+  url: string
+  thumbnailUrl: string
+  title: string
+  description: string
+  eventType: EventType
+  isFeatured: boolean
+  createdAt: string
+  updatedAt: string
+}
 
 // Mock data
 const mockMedia: MediaItem[] = [
@@ -119,6 +132,7 @@ const eventTypeLabels: Record<EventType, string> = {
   corporate: "Corporate",
   college: "College",
   audition: "Audition",
+  guest_performance: "Guest Performance",
 }
 
 const eventTypeColors: Record<EventType, string> = {
@@ -126,6 +140,7 @@ const eventTypeColors: Record<EventType, string> = {
   corporate: "bg-blue-100 text-blue-700 border-blue-200",
   college: "bg-purple-100 text-purple-700 border-purple-200",
   audition: "bg-amber-100 text-amber-700 border-amber-200",
+  guest_performance: "bg-emerald-100 text-emerald-700 border-emerald-200",
 }
 
 export default function MediaPage() {
@@ -239,6 +254,7 @@ export default function MediaPage() {
                   <SelectItem value="corporate">Corporate</SelectItem>
                   <SelectItem value="college">College</SelectItem>
                   <SelectItem value="audition">Audition</SelectItem>
+                  <SelectItem value="guest_performance">Guest Performance</SelectItem>
                 </SelectContent>
               </Select>
               <div className="flex border rounded-lg">
@@ -306,6 +322,7 @@ export default function MediaPage() {
                           <SelectItem value="corporate">Corporate</SelectItem>
                           <SelectItem value="college">College</SelectItem>
                           <SelectItem value="audition">Audition</SelectItem>
+                          <SelectItem value="guest_performance">Guest Performance</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { Lock, Mail, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase-browser'
 
 // ── Spinner shown while Suspense resolves ────────────────────────────────────
 function FullPageSpinner() {
@@ -186,6 +186,39 @@ function LoginForm() {
                   : <><Lock size={14} /> Sign In to Dashboard</>
                 }
               </button>
+
+{/* ✅ NEW: Go to Homepage Button */}
+<button
+  type="button"
+  onClick={() => router.push('/')}
+  style={{
+    marginTop: 10,
+    width: '100%',
+    padding: '12px 24px',
+    borderRadius: 12,
+    border: '1px solid rgba(245,166,35,0.25)',
+    background: 'rgba(255,255,255,0.03)',
+    color: 'rgba(255,255,255,0.75)',
+    fontSize: 14,
+    fontWeight: 600,
+    fontFamily: '"DM Sans", sans-serif',
+    letterSpacing: '0.03em',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease',
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.background = 'rgba(245,166,35,0.08)'
+    e.currentTarget.style.borderColor = '#f5a623'
+    e.currentTarget.style.color = '#fff'
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+    e.currentTarget.style.borderColor = 'rgba(245,166,35,0.25)'
+    e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
+  }}
+>
+  Go to Homepage
+</button>
             </form>
 
             <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid rgba(245,166,35,0.1)', textAlign: 'center' }}>

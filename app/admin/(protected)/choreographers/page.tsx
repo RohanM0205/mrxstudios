@@ -27,10 +27,25 @@ import {
   Phone,
   Award
 } from "lucide-react"
-import { Choreographer } from "@/lib/types"
+
+interface AdminChoreographer {
+  id: string
+  name: string
+  email: string
+  phone: string
+  bio: string
+  specializations: string[]
+  photoUrl: string | null
+  isActive: boolean
+  isLead: boolean
+  rating: number
+  totalBookings: number
+  createdAt: string
+  updatedAt: string
+}
 
 // Mock data
-const mockChoreographers: Choreographer[] = [
+const mockChoreographers: AdminChoreographer[] = [
   {
     id: "ch1",
     name: "Ritesh More",
@@ -94,9 +109,9 @@ const mockChoreographers: Choreographer[] = [
 ]
 
 export default function ChoreographersPage() {
-  const [choreographers, setChoreographers] = useState<Choreographer[]>(mockChoreographers)
+  const [choreographers, setChoreographers] = useState<AdminChoreographer[]>(mockChoreographers)
   const [isAddOpen, setIsAddOpen] = useState(false)
-  const [editingChoreographer, setEditingChoreographer] = useState<Choreographer | null>(null)
+  const [editingChoreographer, setEditingChoreographer] = useState<AdminChoreographer | null>(null)
 
   const toggleActive = (id: string) => {
     setChoreographers(prev => prev.map(ch => 
@@ -252,7 +267,7 @@ export default function ChoreographersPage() {
                 <CardContent className="p-4">
                   <div className="flex gap-4">
                     <Avatar className="h-20 w-20">
-                      <AvatarImage src={choreographer.photoUrl} alt={choreographer.name} />
+                      <AvatarImage src={choreographer.photoUrl ?? undefined} alt={choreographer.name} />
                       <AvatarFallback>{choreographer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -338,7 +353,7 @@ export default function ChoreographersPage() {
                 </div>
                 <div className="space-y-2">
                   <Label>Photo URL</Label>
-                  <Input defaultValue={editingChoreographer.photoUrl} />
+                  <Input defaultValue={editingChoreographer.photoUrl ?? ""} />
                 </div>
               </div>
               <div className="space-y-2">
